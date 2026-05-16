@@ -33,7 +33,7 @@ const products: Product[] = [
         category: 'Fresh Flowers',
         occasion: 'Anniversary',
         color: 'Red',
-        price: 1299,
+        price: 129000,
         badge: 'Best Seller',
         image: 'https://images.pexels.com/photos/931179/pexels-photo-931179.jpeg?auto=compress&cs=tinysrgb&w=700',
     },
@@ -42,7 +42,7 @@ const products: Product[] = [
         category: 'Fresh Flowers',
         occasion: 'Birthday',
         color: 'Pink',
-        price: 1599,
+        price: 159000,
         badge: 'Popular',
         image: 'https://images.pexels.com/photos/931177/pexels-photo-931177.jpeg?auto=compress&cs=tinysrgb&w=700',
     },
@@ -51,7 +51,7 @@ const products: Product[] = [
         category: 'Flower Boxes',
         occasion: 'Mother’s Day',
         color: 'Blush',
-        price: 2199,
+        price: 219000,
         badge: 'New',
         image: 'https://images.pexels.com/photos/264985/pexels-photo-264985.jpeg?auto=compress&cs=tinysrgb&w=700',
     },
@@ -60,7 +60,7 @@ const products: Product[] = [
         category: 'Standing Flowers',
         occasion: 'Congratulations',
         color: 'White',
-        price: 2999,
+        price: 299000,
         image: 'https://images.pexels.com/photos/931158/pexels-photo-931158.jpeg?auto=compress&cs=tinysrgb&w=700',
     },
     {
@@ -68,7 +68,7 @@ const products: Product[] = [
         category: 'Flower Boards',
         occasion: 'Sympathy',
         color: 'White',
-        price: 2499,
+        price: 249000,
         image: 'https://images.pexels.com/photos/796606/pexels-photo-796606.jpeg?auto=compress&cs=tinysrgb&w=700',
     },
     {
@@ -76,7 +76,7 @@ const products: Product[] = [
         category: 'Fresh Flowers',
         occasion: 'Anniversary',
         color: 'Pink',
-        price: 1899,
+        price: 189000,
         image: 'https://images.pexels.com/photos/931162/pexels-photo-931162.jpeg?auto=compress&cs=tinysrgb&w=700',
     },
     {
@@ -84,7 +84,7 @@ const products: Product[] = [
         category: 'Forever Flowers',
         occasion: 'Gifts',
         color: 'Blush',
-        price: 2699,
+        price: 269000,
         image: 'https://images.pexels.com/photos/931176/pexels-photo-931176.jpeg?auto=compress&cs=tinysrgb&w=700',
     },
     {
@@ -92,7 +92,7 @@ const products: Product[] = [
         category: 'Hampers',
         occasion: 'Birthday',
         color: 'Champagne',
-        price: 3299,
+        price: 329000,
         image: 'https://images.pexels.com/photos/291759/pexels-photo-291759.jpeg?auto=compress&cs=tinysrgb&w=700',
     },
     {
@@ -100,7 +100,7 @@ const products: Product[] = [
         category: 'Personalized Gifts',
         occasion: 'Gifts',
         color: 'Champagne',
-        price: 1499,
+        price: 149000,
         image: 'https://images.pexels.com/photos/264985/pexels-photo-264985.jpeg?auto=compress&cs=tinysrgb&w=700',
     },
 ];
@@ -125,6 +125,7 @@ const occasions = [
 ];
 
 const colors = ['Red', 'Pink', 'White', 'Blush', 'Champagne'];
+const container = 'mx-auto w-full max-w-[1440px] px-4';
 
 const filterButtonClass = (isActive: boolean) =>
     [
@@ -145,8 +146,12 @@ const swatches: Record<string, string> = {
 
 function Logo() {
     return (
-        <a aria-label="SageBloom home" className="sb-logo" href="/">
-            <span className="sb-logo-mark">
+        <a
+            aria-label="SageBloom home"
+            className="inline-flex items-center gap-2.5 text-[28px] leading-none font-[var(--font-heading)] font-medium text-[#596B4A]"
+            href="/"
+        >
+            <span className="grid h-[42px] w-[42px] place-items-center rounded-full text-[#718164]">
                 <Leaf size={34} strokeWidth={1.15} />
             </span>
             <span>SageBloom</span>
@@ -155,7 +160,11 @@ function Logo() {
 }
 
 function formatPrice(price: number) {
-    return `₹${price.toLocaleString('en-IN')}`;
+    return new Intl.NumberFormat('id-ID', {
+        currency: 'IDR',
+        maximumFractionDigits: 0,
+        style: 'currency',
+    }).format(price);
 }
 
 export default function Catalog() {
@@ -163,7 +172,15 @@ export default function Catalog() {
     const [category, setCategory] = useState('All');
     const [occasion, setOccasion] = useState('All');
     const [color, setColor] = useState('All');
-    const [maxPrice, setMaxPrice] = useState(3500);
+    const [maxPrice, setMaxPrice] = useState(350000);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const navLinks = [
+        ['Home', '/'],
+        ['Flowers', '/catalog'],
+        ['Occasions', '/#occasions'],
+        ['Custom Bouquet', '/#custom-bouquet'],
+        ['Contact', '/#contact'],
+    ];
 
     const filteredProducts = useMemo(() => {
         const normalizedQuery = query.trim().toLowerCase();
@@ -190,7 +207,7 @@ export default function Catalog() {
         setCategory('All');
         setOccasion('All');
         setColor('All');
-        setMaxPrice(3500);
+        setMaxPrice(350000);
     };
 
     return (
@@ -202,58 +219,122 @@ export default function Catalog() {
                 />
             </Head>
 
-            <div className="sb-page bg-[radial-gradient(circle_at_8%_10%,rgba(221,229,213,0.58),transparent_22rem),radial-gradient(circle_at_92%_24%,rgba(235,199,189,0.2),transparent_20rem),#FAF8F2]">
-                <div className="sb-topbar">
+            <div className="min-h-screen overflow-x-clip bg-[radial-gradient(circle_at_8%_10%,rgba(221,229,213,0.58),transparent_22rem),radial-gradient(circle_at_92%_24%,rgba(235,199,189,0.2),transparent_20rem),#FAF8F2] font-[var(--font-body)] text-[#2F352B]">
+                <div className="flex min-h-[34px] items-center justify-center gap-11 overflow-x-auto bg-[#596B4A] px-4 text-xs font-medium whitespace-nowrap text-[#FFFDF8] max-md:justify-start">
                     {[
                         [Truck, 'Same-Day Delivery Available'],
                         [Leaf, 'Fresh Flowers, Handpicked Daily'],
                         [MapPin, 'Delivery Across Major Cities'],
                         [Gift, 'Premium Gifting & Packaging'],
                     ].map(([Icon, text]) => (
-                        <span key={text as string}>
+                        <span
+                            className="inline-flex items-center gap-2"
+                            key={text as string}
+                        >
                             <Icon size={15} strokeWidth={1.6} />
                             {text as string}
                         </span>
                     ))}
                 </div>
 
-                <header className="sb-navbar">
-                    <div className="sb-container sb-nav-inner">
+                <header className="sticky top-0 z-20 border-b border-[#E9DFD0]/75 bg-[#FFFDF8]/95 shadow-[0_1px_8px_rgba(47,53,43,0.035)] backdrop-blur">
+                    <div
+                        className={`${container} grid min-h-[76px] grid-cols-[220px_1fr_auto] items-center gap-6 max-[1100px]:grid-cols-[1fr_auto]`}
+                    >
                         <Logo />
-                        <nav aria-label="Primary navigation">
-                            <a href="/">Home</a>
-                            <a href="/catalog">Flowers</a>
-                            <a href="/#occasions">Occasions</a>
-                            <a href="/#custom-bouquet">Custom Bouquet</a>
-                            <a href="/#contact">Contact</a>
+                        <nav
+                            aria-label="Primary navigation"
+                            className="flex items-center justify-center gap-6 max-[1100px]:hidden"
+                        >
+                            {navLinks.map(([label, href]) => (
+                                <a
+                                    className="text-xs font-semibold text-[#2F352B] transition hover:text-[#596B4A]"
+                                    href={href}
+                                    key={label}
+                                >
+                                    {label}
+                                </a>
+                            ))}
                         </nav>
-                        <div className="sb-actions">
-                            <button aria-label="Search">
+                        <div className="flex items-center gap-3.5">
+                            <button
+                                aria-label="Search"
+                                className="grid h-8 w-8 place-items-center text-[#2F352B] max-md:hidden"
+                            >
                                 <Search size={22} strokeWidth={1.55} />
                             </button>
-                            <button aria-label="Wishlist">
+                            <button
+                                aria-label="Wishlist"
+                                className="grid h-8 w-8 place-items-center text-[#2F352B] max-md:hidden"
+                            >
                                 <Heart size={22} strokeWidth={1.55} />
                             </button>
-                            <button aria-label="Cart" className="sb-cart">
+                            <button
+                                aria-label="Cart"
+                                className="relative grid h-8 w-8 place-items-center text-[#2F352B] max-md:hidden"
+                            >
                                 <ShoppingBag size={22} strokeWidth={1.55} />
-                                <b>2</b>
+                                <b className="absolute top-0 right-0 grid h-3.5 w-3.5 place-items-center rounded-full bg-[#596B4A] text-[8px] text-[#FFFDF8]">
+                                    2
+                                </b>
                             </button>
                             <a
-                                className="sb-btn sb-btn-primary"
+                                className="inline-flex min-h-[38px] items-center justify-center rounded-[7px] border border-[#596B4A] bg-[#596B4A] px-5 text-xs font-bold text-[#FFFDF8] transition hover:-translate-y-0.5 hover:bg-[#46563A] max-md:hidden"
                                 href="#catalog"
                             >
                                 Order Now
                             </a>
-                            <button aria-label="Open menu" className="sb-menu">
+                            <button
+                                aria-label="Open menu"
+                                className="hidden h-8 w-8 place-items-center text-[#2F352B] max-[1100px]:grid"
+                                onClick={() => setIsMenuOpen(true)}
+                                type="button"
+                            >
                                 <Menu size={24} />
                             </button>
                         </div>
                     </div>
                 </header>
+                {isMenuOpen && (
+                    <div className="fixed inset-0 z-50 bg-[#2F352B]/35 backdrop-blur-sm min-[1101px]:hidden">
+                        <aside className="ml-auto flex h-full w-[min(86vw,360px)] flex-col bg-[#FFFDF8] p-6 shadow-[0_10px_28px_rgba(47,53,43,0.18)]">
+                            <div className="flex items-center justify-between">
+                                <Logo />
+                                <button
+                                    aria-label="Close menu"
+                                    className="grid h-9 w-9 place-items-center rounded-full border border-[#E9DFD0] text-[#2F352B]"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    type="button"
+                                >
+                                    <X size={20} strokeWidth={1.6} />
+                                </button>
+                            </div>
+                            <nav className="mt-8 grid gap-3">
+                                {navLinks.map(([label, href]) => (
+                                    <a
+                                        className="rounded-xl border border-[#E9DFD0] px-4 py-3 text-sm font-bold text-[#2F352B] transition hover:bg-[#EEF3E9]"
+                                        href={href}
+                                        key={label}
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        {label}
+                                    </a>
+                                ))}
+                            </nav>
+                            <a
+                                className="mt-6 inline-flex min-h-11 items-center justify-center rounded-[7px] bg-[#596B4A] px-5 text-sm font-bold text-[#FFFDF8]"
+                                href="#catalog"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Order Now
+                            </a>
+                        </aside>
+                    </div>
+                )}
 
                 <main>
                     <section className="border-b border-[#E9DFD0]/70 bg-[linear-gradient(90deg,#FAF8F2_0%,#F5F0E7_58%,#EEF3E9_100%)] py-14 md:py-[70px]">
-                        <div className="sb-container">
+                        <div className={container}>
                             <span className="mb-3 inline-flex text-lg font-[var(--font-heading)] text-[#718164]">
                                 Freshly arranged daily
                             </span>
@@ -269,7 +350,7 @@ export default function Catalog() {
                     </section>
 
                     <section
-                        className="sb-container grid items-start gap-6 py-9 md:gap-[34px] md:py-[58px] lg:grid-cols-[300px_1fr]"
+                        className={`${container} grid items-start gap-6 py-9 md:gap-[34px] md:py-[58px] lg:grid-cols-[300px_1fr]`}
                         id="catalog"
                     >
                         <aside
@@ -376,12 +457,12 @@ export default function Catalog() {
                                 </span>
                                 <input
                                     className="accent-[#596B4A]"
-                                    max="3500"
-                                    min="1000"
+                                    max="350000"
+                                    min="100000"
                                     onChange={(event) =>
                                         setMaxPrice(Number(event.target.value))
                                     }
-                                    step="100"
+                                    step="10000"
                                     type="range"
                                     value={maxPrice}
                                 />
@@ -488,45 +569,95 @@ export default function Catalog() {
                     </section>
                 </main>
 
-                <footer className="sb-footer">
-                    <div className="sb-container sb-footer-grid">
+                <footer className="mt-14 border-t border-[#E9DFD0] bg-[#FFFDF8]/90 py-16 pb-8">
+                    <div
+                        className={`${container} grid min-h-[190px] grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-[1.45fr_repeat(5,1fr)]`}
+                    >
                         <div>
                             <Logo />
-                            <p>
+                            <p className="mt-4 flex items-start gap-2 text-[11px] leading-[1.55] text-[#5E6258]">
                                 Crafting heartfelt floral experiences with
                                 premium flowers, thoughtful gifts and
                                 exceptional service.
                             </p>
                         </div>
                         <div>
-                            <h3>Quick Links</h3>
-                            <a href="/">Home</a>
-                            <a href="/catalog">Flowers</a>
-                            <a href="/#occasions">Occasions</a>
-                            <a href="/#custom-bouquet">Custom Bouquet</a>
+                            <h3 className="mb-4 text-xs font-extrabold text-[#2F352B]">
+                                Quick Links
+                            </h3>
+                            <a
+                                className="mt-2 block text-[11px] text-[#5E6258]"
+                                href="/"
+                            >
+                                Home
+                            </a>
+                            <a
+                                className="mt-2 block text-[11px] text-[#5E6258]"
+                                href="/catalog"
+                            >
+                                Flowers
+                            </a>
+                            <a
+                                className="mt-2 block text-[11px] text-[#5E6258]"
+                                href="/#occasions"
+                            >
+                                Occasions
+                            </a>
+                            <a
+                                className="mt-2 block text-[11px] text-[#5E6258]"
+                                href="/#custom-bouquet"
+                            >
+                                Custom Bouquet
+                            </a>
                         </div>
                         <div>
-                            <h3>Customer Service</h3>
-                            <a href="/#contact">Help Center</a>
-                            <a href="/#contact">Track Order</a>
-                            <a href="/#contact">Returns & Refunds</a>
-                            <a href="/#contact">Privacy Policy</a>
+                            <h3 className="mb-4 text-xs font-extrabold text-[#2F352B]">
+                                Customer Service
+                            </h3>
+                            <a
+                                className="mt-2 block text-[11px] text-[#5E6258]"
+                                href="/#contact"
+                            >
+                                Help Center
+                            </a>
+                            <a
+                                className="mt-2 block text-[11px] text-[#5E6258]"
+                                href="/#contact"
+                            >
+                                Track Order
+                            </a>
+                            <a
+                                className="mt-2 block text-[11px] text-[#5E6258]"
+                                href="/#contact"
+                            >
+                                Returns & Refunds
+                            </a>
+                            <a
+                                className="mt-2 block text-[11px] text-[#5E6258]"
+                                href="/#contact"
+                            >
+                                Privacy Policy
+                            </a>
                         </div>
                         <div>
-                            <h3>Contact Us</h3>
-                            <p>
+                            <h3 className="mb-4 text-xs font-extrabold text-[#2F352B]">
+                                Contact Us
+                            </h3>
+                            <p className="mt-2 flex items-start gap-2 text-[11px] leading-[1.55] text-[#5E6258]">
                                 <Phone size={13} /> +91 98765 43210
                             </p>
-                            <p>
+                            <p className="mt-2 flex items-start gap-2 text-[11px] leading-[1.55] text-[#5E6258]">
                                 <Mail size={13} /> hello@sagebloom.com
                             </p>
-                            <p>
+                            <p className="mt-2 flex items-start gap-2 text-[11px] leading-[1.55] text-[#5E6258]">
                                 <MapPin size={13} /> Bengaluru, India
                             </p>
                         </div>
                         <div>
-                            <h3>We Deliver To</h3>
-                            <p>
+                            <h3 className="mb-4 text-xs font-extrabold text-[#2F352B]">
+                                We Deliver To
+                            </h3>
+                            <p className="text-[11px] leading-[1.55] text-[#5E6258]">
                                 Bengaluru
                                 <br />
                                 Mumbai
@@ -537,15 +668,17 @@ export default function Catalog() {
                             </p>
                         </div>
                         <div>
-                            <h3>Hours</h3>
-                            <p>
+                            <h3 className="mb-4 text-xs font-extrabold text-[#2F352B]">
+                                Hours
+                            </h3>
+                            <p className="text-[11px] leading-[1.55] text-[#5E6258]">
                                 Mon - Sat: 9:00 AM - 8:00 PM
                                 <br />
                                 Sun: 10:00 AM - 6:00 PM
                             </p>
                         </div>
                     </div>
-                    <p className="sb-copy">
+                    <p className="mt-10 flex justify-center text-[11px] text-[#8A8C82]">
                         © 2026 SageBloom Florist. All Rights Reserved.
                     </p>
                 </footer>
