@@ -181,9 +181,14 @@ const faqs = [
 
 function SectionHeader({ title, link }: { title: string; link: string }) {
     return (
-        <div className="sb-section-header">
-            <h2>{title}</h2>
-            <a href="#flowers">
+        <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-[31px] leading-[1.12] font-[var(--font-heading)] font-normal tracking-[-0.025em] text-[#2F352B]">
+                {title}
+            </h2>
+            <a
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#596B4A] transition-colors hover:text-[#46563A]"
+                href="#flowers"
+            >
                 {link}
                 <ChevronRight size={15} strokeWidth={1.6} />
             </a>
@@ -364,14 +369,20 @@ export default function Welcome() {
                             title="Shop by Category"
                             link="View All Categories"
                         />
-                        <div className="sb-category-grid">
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
                             {categories.map((item) => (
                                 <article
-                                    className="sb-category-card"
+                                    className="text-center transition-transform hover:-translate-y-0.5"
                                     key={item.title}
                                 >
-                                    <img alt={item.title} src={item.image} />
-                                    <h3>{item.title}</h3>
+                                    <img
+                                        alt={item.title}
+                                        className="aspect-[1/0.92] w-full rounded-xl object-cover"
+                                        src={item.image}
+                                    />
+                                    <h3 className="mt-2.5 text-xs font-semibold text-[#2F352B]">
+                                        {item.title}
+                                    </h3>
                                 </article>
                             ))}
                         </div>
@@ -414,7 +425,7 @@ export default function Welcome() {
                     </section>
 
                     <section className="sb-container sb-reveal">
-                        <div className="sb-benefits">
+                        <div className="my-[66px] grid rounded-[14px] border border-[#E9DFD0] bg-[#FFFDF8] px-7 py-5 shadow-[0_1px_2px_rgba(47,53,43,0.04)] md:grid-cols-2 lg:grid-cols-4">
                             {[
                                 [
                                     Trophy,
@@ -436,12 +447,19 @@ export default function Welcome() {
                                     'Same-Day Delivery Available',
                                     'Timely delivery to make every moment special.',
                                 ],
-                            ].map(([Icon, title, text]) => (
-                                <article key={title as string}>
+                            ].map(([Icon, title, text], index) => (
+                                <article
+                                    className={`flex gap-4 px-3 text-[#596B4A] ${index > 0 ? 'lg:border-l lg:border-[#E9DFD0]' : ''}`}
+                                    key={title as string}
+                                >
                                     <Icon size={37} strokeWidth={1.35} />
                                     <div>
-                                        <h3>{title as string}</h3>
-                                        <p>{text as string}</p>
+                                        <h3 className="text-[13px] font-bold text-[#2F352B]">
+                                            {title as string}
+                                        </h3>
+                                        <p className="text-[11px] leading-[1.55] text-[#5E6258]">
+                                            {text as string}
+                                        </p>
                                     </div>
                                 </article>
                             ))}
@@ -456,16 +474,24 @@ export default function Welcome() {
                             title="Shop by Occasion"
                             link="Explore All Occasions"
                         />
-                        <div className="sb-occasion-grid">
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
                             {occasions.map((item) => (
                                 <article
-                                    className="sb-occasion-card"
+                                    className="overflow-hidden rounded-xl border border-[#E9DFD0] bg-[#FFFDF8] text-center shadow-[0_1px_2px_rgba(47,53,43,0.04)] transition hover:-translate-y-0.5 hover:border-[#596B4A]/30 hover:shadow-[0_4px_12px_rgba(47,53,43,0.06)]"
                                     key={item.title}
                                 >
-                                    <img alt={item.title} src={item.image} />
-                                    <div>
-                                        <h3>{item.title}</h3>
-                                        <p>{item.subtitle}</p>
+                                    <img
+                                        alt={item.title}
+                                        className="aspect-[1/0.92] w-full object-cover"
+                                        src={item.image}
+                                    />
+                                    <div className="px-2 pb-3">
+                                        <h3 className="mt-2.5 text-xs font-semibold text-[#2F352B]">
+                                            {item.title}
+                                        </h3>
+                                        <p className="text-[11px] leading-[1.55] text-[#5E6258]">
+                                            {item.subtitle}
+                                        </p>
                                     </div>
                                 </article>
                             ))}
@@ -551,10 +577,11 @@ export default function Welcome() {
                             title="Floral Inspiration"
                             link="View Full Gallery"
                         />
-                        <div className="sb-gallery">
+                        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
                             {gallery.map((src, index) => (
                                 <img
                                     alt={`Floral inspiration ${index + 1}`}
+                                    className="aspect-[1.35/1] w-full rounded-[10px] object-cover shadow-[0_1px_2px_rgba(47,53,43,0.04)]"
                                     key={src}
                                     src={src}
                                 />
@@ -562,22 +589,24 @@ export default function Welcome() {
                         </div>
                     </section>
 
-                    <section className="sb-container sb-testimonials sb-reveal">
-                        <h2>What Our Customers Say</h2>
-                        <div className="sb-testimonial-wrap">
+                    <section className="sb-container sb-reveal py-[70px] pb-10">
+                        <h2 className="text-[31px] leading-[1.12] font-[var(--font-heading)] font-normal tracking-[-0.025em] text-[#2F352B]">
+                            What Our Customers Say
+                        </h2>
+                        <div className="mt-3.5 grid items-center gap-3 md:grid-cols-[34px_1fr_34px]">
                             <button
                                 aria-label="Previous testimonial"
-                                className="sb-arrow"
+                                className="hidden h-8 w-8 place-items-center rounded-full border border-[#E9DFD0] bg-[#FFFDF8] text-2xl leading-none text-[#596B4A] md:grid"
                             >
                                 ‹
                             </button>
-                            <div className="sb-testimonial-grid">
+                            <div className="grid gap-6 md:grid-cols-3">
                                 {testimonials.map(([name, city, quote]) => (
                                     <article
-                                        className="sb-testimonial"
+                                        className="rounded-[14px] border border-[#E9DFD0] bg-[#FFFDF8] p-5 shadow-[0_1px_2px_rgba(47,53,43,0.04)]"
                                         key={name}
                                     >
-                                        <div className="sb-stars">
+                                        <div className="flex gap-[3px] text-[#C8A35D]">
                                             {Array.from({ length: 5 }).map(
                                                 (_, i) => (
                                                     <Star
@@ -589,12 +618,18 @@ export default function Welcome() {
                                                 ),
                                             )}
                                         </div>
-                                        <p>"{quote}"</p>
-                                        <div>
-                                            <span>{name.charAt(0)}</span>
-                                            <strong>
+                                        <p className="my-2 text-[11px] leading-[1.55] text-[#5E6258]">
+                                            "{quote}"
+                                        </p>
+                                        <div className="flex items-center gap-2.5">
+                                            <span className="grid h-[34px] w-[34px] place-items-center rounded-full bg-[linear-gradient(135deg,#EBC7BD,#DDE5D5)] font-extrabold text-[#2F352B]">
+                                                {name.charAt(0)}
+                                            </span>
+                                            <strong className="grid text-xs text-[#2F352B]">
                                                 {name}
-                                                <small>{city}</small>
+                                                <small className="text-[10px] font-medium text-[#8A8C82]">
+                                                    {city}
+                                                </small>
                                             </strong>
                                         </div>
                                     </article>
@@ -602,19 +637,24 @@ export default function Welcome() {
                             </div>
                             <button
                                 aria-label="Next testimonial"
-                                className="sb-arrow"
+                                className="hidden h-8 w-8 place-items-center rounded-full border border-[#E9DFD0] bg-[#FFFDF8] text-2xl leading-none text-[#596B4A] md:grid"
                             >
                                 ›
                             </button>
                         </div>
                     </section>
 
-                    <section className="sb-container sb-faq sb-reveal">
+                    <section className="sb-container sb-reveal my-[46px] mb-[68px] grid min-h-[250px] gap-8 overflow-hidden rounded-2xl border border-[#E9DFD0] bg-[#FFFDF8] p-6 shadow-[0_1px_2px_rgba(47,53,43,0.04)] md:grid-cols-[1fr_330px] md:p-[36px_42px]">
                         <div>
-                            <h2>Frequently Asked Questions</h2>
-                            <div className="sb-faq-grid">
+                            <h2 className="text-[31px] leading-[1.12] font-[var(--font-heading)] font-normal tracking-[-0.025em] text-[#2F352B]">
+                                Frequently Asked Questions
+                            </h2>
+                            <div className="mt-5 grid gap-x-4 gap-y-2.5 md:grid-cols-2">
                                 {faqs.map((faq) => (
-                                    <button key={faq}>
+                                    <button
+                                        className="flex min-h-[52px] items-center justify-between rounded-lg border border-[#E9DFD0] bg-[#FFFDF8] px-4 text-left text-xs font-bold text-[#2F352B]"
+                                        key={faq}
+                                    >
                                         {faq}
                                         <span>+</span>
                                     </button>
@@ -623,27 +663,34 @@ export default function Welcome() {
                         </div>
                         <img
                             alt="White floral arrangement"
+                            className="h-60 w-full self-center rounded-[14px] object-cover md:h-[220px]"
                             src="https://images.pexels.com/photos/931170/pexels-photo-931170.jpeg?auto=compress&cs=tinysrgb&w=900"
                         />
                     </section>
 
-                    <section className="sb-container sb-final sb-reveal">
+                    <section className="sb-container sb-reveal mt-[70px] grid min-h-[170px] items-center gap-5 overflow-hidden rounded-[18px] bg-[radial-gradient(circle_at_12%_42%,rgba(235,199,189,0.28),transparent_2rem),linear-gradient(90deg,#EEF3E9,#F5F0E7)] px-6 py-7 md:grid-cols-[0.92fr_1fr_0.9fr] md:px-11 md:py-6">
                         <div>
-                            <h2>Make Every Moment Bloom</h2>
-                            <p>
+                            <h2 className="text-[34px] leading-[1.02] font-[var(--font-heading)] font-normal tracking-[-0.025em] text-[#2F352B] md:text-[39px]">
+                                Make Every Moment Bloom
+                            </h2>
+                            <p className="flex items-center gap-2 text-[11px] leading-[1.55] text-[#5E6258]">
                                 From everyday smiles to life's biggest
                                 celebrations, we're here to deliver happiness.
                             </p>
                         </div>
-                        <img alt="Soft bouquet arrangement" src={image.final} />
-                        <div>
+                        <img
+                            alt="Soft bouquet arrangement"
+                            className="h-[150px] w-full object-cover mix-blend-multiply [clip-path:ellipse(48%_45%_at_50%_52%)]"
+                            src={image.final}
+                        />
+                        <div className="grid gap-6 md:justify-items-end">
                             <a
                                 className="sb-btn sb-btn-primary"
                                 href="#flowers"
                             >
                                 Order Flowers Now
                             </a>
-                            <p>
+                            <p className="flex flex-wrap items-center gap-2 text-[10px] font-bold text-[#718164] md:justify-end">
                                 <Leaf size={15} /> Fresh & Handpicked{' '}
                                 <Truck size={15} /> On-Time Delivery{' '}
                                 <PackageCheck size={15} /> Beautifully Packaged

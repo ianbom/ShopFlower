@@ -126,6 +126,23 @@ const occasions = [
 
 const colors = ['Red', 'Pink', 'White', 'Blush', 'Champagne'];
 
+const filterButtonClass = (isActive: boolean) =>
+    [
+        'flex min-h-9 items-center gap-2 rounded-lg border px-2.5 text-left text-xs font-bold transition',
+        isActive
+            ? 'border-[#596B4A]/25 bg-[#EEF3E9] text-[#46563A]'
+            : 'border-transparent text-[#5E6258] hover:border-[#596B4A]/20 hover:bg-[#EEF3E9] hover:text-[#46563A]',
+    ].join(' ');
+
+const swatches: Record<string, string> = {
+    All: 'bg-[#DDE5D5]',
+    Red: 'bg-[#B94B47]',
+    Pink: 'bg-[#D9A69B]',
+    White: 'bg-[#FFFDF8]',
+    Blush: 'bg-[#EBC7BD]',
+    Champagne: 'bg-[#EAD8BF]',
+};
+
 function Logo() {
     return (
         <a aria-label="SageBloom home" className="sb-logo" href="/">
@@ -185,7 +202,7 @@ export default function Catalog() {
                 />
             </Head>
 
-            <div className="sb-page sb-catalog-page">
+            <div className="sb-page bg-[radial-gradient(circle_at_8%_10%,rgba(221,229,213,0.58),transparent_22rem),radial-gradient(circle_at_92%_24%,rgba(235,199,189,0.2),transparent_20rem),#FAF8F2]">
                 <div className="sb-topbar">
                     {[
                         [Truck, 'Same-Day Delivery Available'],
@@ -235,11 +252,15 @@ export default function Catalog() {
                 </header>
 
                 <main>
-                    <section className="sb-catalog-hero">
+                    <section className="border-b border-[#E9DFD0]/70 bg-[linear-gradient(90deg,#FAF8F2_0%,#F5F0E7_58%,#EEF3E9_100%)] py-14 md:py-[70px]">
                         <div className="sb-container">
-                            <span>Freshly arranged daily</span>
-                            <h1>Flower Catalog</h1>
-                            <p>
+                            <span className="mb-3 inline-flex text-lg font-[var(--font-heading)] text-[#718164]">
+                                Freshly arranged daily
+                            </span>
+                            <h1 className="text-[46px] leading-[0.98] font-[var(--font-heading)] font-normal tracking-[-0.025em] text-[#2F352B] md:text-[68px]">
+                                Flower Catalog
+                            </h1>
+                            <p className="mt-4 max-w-[620px] text-[15px] leading-[1.7] text-[#5E6258]">
                                 Browse handcrafted bouquets, boards, hampers,
                                 and preserved flowers by occasion, color, and
                                 budget.
@@ -248,25 +269,34 @@ export default function Catalog() {
                     </section>
 
                     <section
-                        className="sb-container sb-catalog-layout"
+                        className="sb-container grid items-start gap-6 py-9 md:gap-[34px] md:py-[58px] lg:grid-cols-[300px_1fr]"
                         id="catalog"
                     >
                         <aside
-                            className="sb-catalog-sidebar"
+                            className="rounded-2xl border border-[#E9DFD0] bg-[#FFFDF8]/90 p-6 shadow-[0_1px_2px_rgba(47,53,43,0.04)] lg:sticky lg:top-[104px]"
                             aria-label="Catalog filters"
                         >
-                            <div className="sb-filter-title">
+                            <div className="flex items-center gap-2.5 text-[#596B4A]">
                                 <SlidersHorizontal
                                     size={18}
                                     strokeWidth={1.6}
                                 />
-                                <h2>Filter Flowers</h2>
+                                <h2 className="text-[27px] leading-none font-[var(--font-heading)] font-normal tracking-[-0.025em] text-[#2F352B]">
+                                    Filter Flowers
+                                </h2>
                             </div>
 
-                            <label className="sb-filter-search">
-                                <span>Search</span>
-                                <Search size={17} strokeWidth={1.6} />
+                            <label className="relative mt-6 grid gap-2">
+                                <span className="text-xs font-extrabold text-[#2F352B]">
+                                    Search
+                                </span>
+                                <Search
+                                    className="absolute bottom-[13px] left-[13px] text-[#718164]"
+                                    size={17}
+                                    strokeWidth={1.6}
+                                />
                                 <input
+                                    className="min-h-11 rounded-[9px] border border-[#E9DFD0] bg-[#FFFDF8] px-3.5 pl-9 text-xs text-[#2F352B] outline-[#718164]"
                                     onChange={(event) =>
                                         setQuery(event.target.value)
                                     }
@@ -276,13 +306,15 @@ export default function Catalog() {
                                 />
                             </label>
 
-                            <div className="sb-filter-block">
-                                <h3>Category</h3>
+                            <div className="mt-6 grid gap-2">
+                                <h3 className="text-xs font-extrabold text-[#2F352B]">
+                                    Category
+                                </h3>
                                 {['All', ...categories].map((item) => (
                                     <button
-                                        className={
-                                            category === item ? 'is-active' : ''
-                                        }
+                                        className={filterButtonClass(
+                                            category === item,
+                                        )}
                                         key={item}
                                         onClick={() => setCategory(item)}
                                         type="button"
@@ -292,9 +324,12 @@ export default function Catalog() {
                                 ))}
                             </div>
 
-                            <div className="sb-filter-block">
-                                <h3>Occasion</h3>
+                            <div className="relative mt-6 grid gap-2">
+                                <h3 className="text-xs font-extrabold text-[#2F352B]">
+                                    Occasion
+                                </h3>
                                 <select
+                                    className="min-h-11 appearance-none rounded-[9px] border border-[#E9DFD0] bg-[#FFFDF8] px-3.5 pr-9 text-xs text-[#2F352B] outline-[#718164]"
                                     aria-label="Filter by occasion"
                                     onChange={(event) =>
                                         setOccasion(event.target.value)
@@ -305,25 +340,29 @@ export default function Catalog() {
                                         <option key={item}>{item}</option>
                                     ))}
                                 </select>
-                                <ChevronDown size={16} strokeWidth={1.6} />
+                                <ChevronDown
+                                    className="pointer-events-none absolute right-[13px] bottom-3.5 text-[#718164]"
+                                    size={16}
+                                    strokeWidth={1.6}
+                                />
                             </div>
 
-                            <div className="sb-filter-block">
-                                <h3>Color Palette</h3>
-                                <div className="sb-color-filter">
+                            <div className="mt-6 grid gap-2">
+                                <h3 className="text-xs font-extrabold text-[#2F352B]">
+                                    Color Palette
+                                </h3>
+                                <div className="grid grid-cols-2 gap-2">
                                     {['All', ...colors].map((item) => (
                                         <button
-                                            className={
-                                                color === item
-                                                    ? 'is-active'
-                                                    : ''
-                                            }
+                                            className={filterButtonClass(
+                                                color === item,
+                                            )}
                                             key={item}
                                             onClick={() => setColor(item)}
                                             type="button"
                                         >
                                             <span
-                                                className={`sb-swatch sb-swatch-${item.toLowerCase().replace('’', '').replace(' ', '-')}`}
+                                                className={`h-[11px] w-[11px] rounded-full border border-[#2F352B]/10 ${swatches[item]}`}
                                             />
                                             {item}
                                         </button>
@@ -331,11 +370,12 @@ export default function Catalog() {
                                 </div>
                             </div>
 
-                            <label className="sb-price-filter">
-                                <span>
+                            <label className="mt-6 grid gap-3">
+                                <span className="text-xs font-extrabold text-[#2F352B]">
                                     Budget up to {formatPrice(maxPrice)}
                                 </span>
                                 <input
+                                    className="accent-[#596B4A]"
                                     max="3500"
                                     min="1000"
                                     onChange={(event) =>
@@ -348,7 +388,7 @@ export default function Catalog() {
                             </label>
 
                             <button
-                                className="sb-filter-reset"
+                                className="mt-6 flex min-h-9 w-full items-center justify-center gap-2 rounded-lg border border-[#E9DFD0] bg-[#FFFDF8] px-2.5 text-xs font-bold text-[#5E6258] transition hover:border-[#596B4A]/20 hover:bg-[#EEF3E9] hover:text-[#46563A]"
                                 onClick={resetFilters}
                                 type="button"
                             >
@@ -357,36 +397,38 @@ export default function Catalog() {
                             </button>
                         </aside>
 
-                        <div className="sb-catalog-content">
-                            <div className="sb-catalog-toolbar">
+                        <div className="min-w-0">
+                            <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-[#E9DFD0] bg-[#FFFDF8]/90 px-6 py-5 shadow-[0_1px_2px_rgba(47,53,43,0.04)] md:flex-row md:items-center">
                                 <div>
-                                    <h2>All Arrangements</h2>
-                                    <p>
+                                    <h2 className="text-[31px] leading-[1.08] font-[var(--font-heading)] font-normal tracking-[-0.025em] text-[#2F352B]">
+                                        All Arrangements
+                                    </h2>
+                                    <p className="mt-1 text-xs text-[#5E6258]">
                                         {filteredProducts.length} curated
                                         products available for delivery.
                                     </p>
                                 </div>
-                                <div>
+                                <div className="inline-flex items-center gap-2 rounded-full border border-[#DDE5D5] bg-[#EEF3E9] px-3 py-2 text-xs font-extrabold whitespace-nowrap text-[#46563A]">
                                     <Sparkles size={17} strokeWidth={1.6} />
                                     Handcrafted daily
                                 </div>
                             </div>
 
                             {filteredProducts.length > 0 ? (
-                                <div className="sb-catalog-grid">
+                                <div className="mt-6 grid gap-[22px] md:grid-cols-2 xl:grid-cols-3">
                                     {filteredProducts.map((product) => (
                                         <article
-                                            className="sb-product-card sb-catalog-product"
+                                            className="relative flex min-h-[346px] flex-col rounded-xl border border-[#E9DFD0] bg-[#FFFDF8] p-3 shadow-[0_1px_2px_rgba(47,53,43,0.04)] transition hover:-translate-y-0.5 hover:border-[#596B4A]/30 hover:shadow-[0_4px_12px_rgba(47,53,43,0.06)]"
                                             key={product.name}
                                         >
                                             {product.badge && (
-                                                <span className="sb-badge">
+                                                <span className="absolute top-3.5 left-3.5 rounded-full bg-[#EEF3E9] px-2 py-1 text-[9px] font-extrabold text-[#596B4A]">
                                                     {product.badge}
                                                 </span>
                                             )}
                                             <button
                                                 aria-label={`Add ${product.name} to wishlist`}
-                                                className="sb-wishlist"
+                                                className="absolute top-3.5 right-3.5 grid h-7 w-7 place-items-center rounded-full bg-[#FFFDF8]/90 text-[#718164]"
                                             >
                                                 <Heart
                                                     size={16}
@@ -395,33 +437,46 @@ export default function Catalog() {
                                             </button>
                                             <img
                                                 alt={product.name}
+                                                className="aspect-[1/0.94] w-full rounded-[9px] bg-[#F5F0E7] object-cover"
                                                 src={product.image}
                                             />
-                                            <div className="sb-product-meta">
-                                                <span>{product.category}</span>
-                                                <span>{product.occasion}</span>
+                                            <div className="mt-3 flex flex-wrap gap-2">
+                                                <span className="rounded-full bg-[#EEF3E9] px-2 py-1 text-[10px] font-extrabold text-[#718164]">
+                                                    {product.category}
+                                                </span>
+                                                <span className="rounded-full bg-[#EEF3E9] px-2 py-1 text-[10px] font-extrabold text-[#718164]">
+                                                    {product.occasion}
+                                                </span>
                                             </div>
-                                            <h3>{product.name}</h3>
-                                            <strong>
+                                            <h3 className="mt-3 text-xs leading-[1.35] font-semibold text-[#2F352B]">
+                                                {product.name}
+                                            </h3>
+                                            <strong className="mt-1 text-sm text-[#2F352B]">
                                                 {formatPrice(product.price)}
                                             </strong>
-                                            <button className="sb-product-btn">
+                                            <button className="mt-auto min-h-[30px] rounded-md bg-[#596B4A] text-[11px] font-bold text-[#FFFDF8] transition hover:bg-[#46563A]">
                                                 Order Now
                                             </button>
                                         </article>
                                     ))}
                                 </div>
                             ) : (
-                                <div className="sb-catalog-empty">
-                                    <Leaf size={38} strokeWidth={1.3} />
-                                    <h3>No flowers match these filters</h3>
-                                    <p>
+                                <div className="mt-6 grid min-h-[390px] place-items-center justify-items-center rounded-2xl border border-[#E9DFD0] bg-[#FFFDF8]/90 p-10 text-center shadow-[0_1px_2px_rgba(47,53,43,0.04)]">
+                                    <Leaf
+                                        className="text-[#596B4A]"
+                                        size={38}
+                                        strokeWidth={1.3}
+                                    />
+                                    <h3 className="mt-3.5 text-[32px] font-[var(--font-heading)] font-normal tracking-[-0.025em] text-[#2F352B]">
+                                        No flowers match these filters
+                                    </h3>
+                                    <p className="my-3 max-w-[420px] text-[13px] leading-[1.65] text-[#5E6258]">
                                         Try a softer budget, broader category,
                                         or clear filters to see more
                                         arrangements.
                                     </p>
                                     <button
-                                        className="sb-btn sb-btn-primary"
+                                        className="inline-flex min-h-[38px] items-center justify-center rounded-[7px] border border-[#596B4A] bg-[#596B4A] px-5 text-xs font-bold text-[#FFFDF8] transition hover:-translate-y-0.5 hover:border-[#46563A] hover:bg-[#46563A] active:translate-y-px"
                                         onClick={resetFilters}
                                         type="button"
                                     >
